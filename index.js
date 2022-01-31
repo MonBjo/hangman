@@ -10,13 +10,13 @@
  x Ta fram ord ur listan med ord
  x Användaren trycker på en tangent
  kolla så att det faktiskt är en bokstav
- kolla så att bokstaven är ny
+ x kolla så att bokstaven är ny
 
  x jämnför bokstaven med ordet
  x om fel bokstav visa den under 
     fyll i ett del på gubben
  x om rätt fyll i bokstav i ordet
-    i rätt ordning
+    x i rätt ordning
 
  när man vinner visa "du vann"-skärmen + fråga om att spela igen
  när man förlorar visa "du förlorade"-skärmen + fråga om att spela igen
@@ -28,26 +28,35 @@ let guessedLettersElem = document.querySelector('.guessedLetters');
 
 let wordsToGuess = ['katt', 'hund', 'chinchilla', 'anka', 'Kanin'];
 let guessedLetters = [];
+let wordGuessByPlayer = [];
+let isTrue;
 
 let wordToGuess = wordsToGuess[Math.floor(Math.random() * wordsToGuess.length)].toLowerCase();
 console.log(`wordToGuess: ${wordToGuess}`);
 
-for(let letter in guessedLetters) {
-    console.log(letter);
-}
 
 document.addEventListener('keydown', (event) => {
     console.log(event.key);
     const char = event.key;
     /* TODO: Kolla så att det är en bokstav */
-    /* TODO: kolla så inte bokstaven trykts ner tidigare */
-    compare(char, wordToGuess);
-    console.log('isTrue: ', isTrue);
-    displayLetter(isTrue, char);
+    if(!hasKeyBeenPressedBefore(char)){
+        compare(char, wordToGuess);
+        console.log('isTrue: ', isTrue);
+        displayLetter(isTrue, char);
+    }
 });
 
-let wordGuessByPlayer = [];
-let isTrue;
+function hasKeyBeenPressedBefore(char){
+    //console.log('hasKeyBeenPressedBefore:');
+    for(let letter of guessedLetters){
+        if(char == letter) {
+            return true;
+        }
+        //console.log('char', char);
+        //console.log('letter', letter);
+    }
+}
+
 
 function compare(char, wordToGuess) {
     isTrue = false;
@@ -66,6 +75,7 @@ function compare(char, wordToGuess) {
             console.log(i + wordToGuess);
         }
     }
+    guessedLetters.push(char);
 }
 
 
@@ -81,5 +91,9 @@ function displayLetter(guessedLetter, char){
     } else {
         /* visa i .guessedLetters */
         guessedLettersElem.innerHTML += char;
+        /* TODO: Lägg in funktion för att visa gubben */
     }
 }
+
+
+/* TODO: Lägg in funktion för du vann/du förlora skärmen */
