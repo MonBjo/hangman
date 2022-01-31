@@ -29,8 +29,7 @@ let guessedLettersElem = document.querySelector('.guessedLetters');
 let wordsToGuess = ['katt', 'hund', 'chinchilla', 'anka', 'Kanin'];
 let guessedLetters = [];
 
-let wordToGuess = wordsToGuess[Math.floor(Math.random() * wordsToGuess.length)];
-wordToGuess.toLowerCase();
+let wordToGuess = wordsToGuess[Math.floor(Math.random() * wordsToGuess.length)].toLowerCase();
 console.log(`wordToGuess: ${wordToGuess}`);
 
 for(let letter in guessedLetters) {
@@ -42,17 +41,24 @@ document.addEventListener('keydown', (event) => {
     const char = event.key;
     /* TODO: Kolla så att det är en bokstav */
     /* TODO: kolla så inte bokstaven trykts ner tidigare */
-    let guessedLetter = compare(char, wordToGuess);
-    displayLetter(guessedLetter, char);
+    compare(char, wordToGuess);
+    console.log('isTrue: ', isTrue);
+    displayLetter(isTrue, char);
 });
 
+let wordGuessByPlayer = [];
+let isTrue;
 
 function compare(char, wordToGuess) {
+    isTrue = false;
     console.log(`wordToGuess.length: ${wordToGuess.length}`);
     for(let i = 0; i < wordToGuess.length; i++){
         if (char == wordToGuess.charAt(i)){
             console.log("rätt!");
-            return true;
+            //wordGuessByPlayer.slice(char, i);
+            wordGuessByPlayer[i] = char;
+            console.log(wordGuessByPlayer);
+            isTrue = true;
         } else {
             console.log("fel!");
             //console.log(i + ' char ' + char);
@@ -64,9 +70,14 @@ function compare(char, wordToGuess) {
 
 
 function displayLetter(guessedLetter, char){
-    if(guessedLetter) {
+    if(isTrue) {
         /* visa i .wordGuess */
-        wordGuessElem.innerHTML += char;
+        wordGuessElem.innerHTML = "Rätt: ";
+        for(let char of wordGuessByPlayer){
+            if(char != undefined){
+                wordGuessElem.innerHTML += char;
+            }
+        }
     } else {
         /* visa i .guessedLetters */
         guessedLettersElem.innerHTML += char;
