@@ -39,109 +39,107 @@
  }
  generateWord();
  document.addEventListener('keydown', (event) => {
-     console.log(event.key);
-     const char = event.key;
-     /* TODO: Kolla så att det är en bokstav */
-     if(!hasKeyBeenPressedBefore(char) && checkLetter(char)){
-         compare(char, wordToGuess);
-         //console.log('isTrue: ', isTrue);
-         displayLetter(isTrue, char);
-         showHangMan();
-         playerWin();
-     }
+    console.log(event.key);
+    const char = event.key;
+    /* TODO: Kolla så att det är en bokstav */
+    if(!hasKeyBeenPressedBefore(char) && checkLetter(char)){
+        compare(char, wordToGuess);
+        //console.log('isTrue: ', isTrue);
+        displayLetter(isTrue, char);
+        showHangMan();
+        playerWin();
+    }
  });
  
  function hasKeyBeenPressedBefore(char){
-     //console.log('hasKeyBeenPressedBefore:');
-     for(let letter of guessedLetters){
-         if(char == letter) {
-             return true;
-         }
-         //console.log('char', char);
-         //console.log('letter', letter);
-     }
+    //console.log('hasKeyBeenPressedBefore:');
+    for(let letter of guessedLetters){
+        if(char == letter) {
+            return true;
+        }
+        //console.log('char', char);
+        //console.log('letter', letter);
+    }
  }
  
  
  function compare(char, wordToGuess) {
-     isTrue = false;
-     //console.log(`wordToGuess.length: ${wordToGuess.length}`);
-     for(let i = 0; i < wordToGuess.length; i++){
-         if (char == wordToGuess.charAt(i)){
-             console.log("rätt!");
-             //wordGuessByPlayer.slice(char, i);
-             wordGuessByPlayer[i] = char;
-             //console.log(wordGuessByPlayer);
-             isTrue = true;
-             
-         } else {
-             console.log("fel!");
-             //console.log(i + ' char ' + char);
-             //console.log(i + ' word ' + wordToGuess.charAt(i));
-             //console.log(i + wordToGuess);
-             
-         }
-     }
-     guessedLetters.push(char);
+    isTrue = false;
+    //console.log(`wordToGuess.length: ${wordToGuess.length}`);
+    for(let i = 0; i < wordToGuess.length; i++){
+        if (char == wordToGuess.charAt(i)){
+            console.log("rätt!");
+            //wordGuessByPlayer.slice(char, i);
+            wordGuessByPlayer[i] = char;
+            //console.log(wordGuessByPlayer);
+            isTrue = true;
+            
+        } else {
+            console.log("fel!");
+            //console.log(i + ' char ' + char);
+            //console.log(i + ' word ' + wordToGuess.charAt(i));
+            //console.log(i + wordToGuess);
+            
+        }
+    }
+    guessedLetters.push(char);
      
  }
  
  
  function displayLetter(guessedLetter, char){
-     if(isTrue) {
-         /* visa i .wordGuess */
-         wordGuessElem.innerHTML = "Rätt: ";
-         for(let char of wordGuessByPlayer){
-             if(char != undefined){
-                 wordGuessElem.innerHTML += char;
-             }
-         }
-     } else {
-         /* visa i .guessedLetters */
-         guessedLettersElem.innerHTML += char;
-         /* TODO: Lägg in funktion för att visa gubben */
-     }
+    if(isTrue) {
+        /* visa i .wordGuess */
+        wordGuessElem.innerHTML = "Rätt: ";
+        for(let char of wordGuessByPlayer){
+            if(char != undefined){
+                wordGuessElem.innerHTML += char;
+            }
+        }
+    } else {
+        /* visa i .guessedLetters */
+        guessedLettersElem.innerHTML += char;
+    }
  }
  function showHangMan (){
-     //Start 6 för att 'Fel: ' i den html
+     //Starts at 5 becauce guessedLettersElem already contains 'Fel: '
      switch(guessedLettersElem.innerHTML.length){
-         case 5:
-             break;
-         case 6:
-             document.querySelector('figure').classList.add('scaffold')
-             break;
-         case 7:
-             document.querySelector('figure').classList.add('head')
-             break;
-         case 8:
-             document.querySelector('figure').classList.add('body')
-             break;
-         case 9:
-             document.querySelector('figure').classList.add('arms')
-             break;
-         case 10:
-             document.querySelector('figure').classList.add('legs')
-             break;
-         case 11:
-             playerLose();
-             break;
-         default:
-             console.log('What are you doing?')
+        case 5:
+            break;
+        case 6:
+            document.querySelector('figure').classList.add('scaffold')
+            break;
+        case 7:
+            document.querySelector('figure').classList.add('head')
+            break;
+        case 8:
+            document.querySelector('figure').classList.add('body')
+            break;
+        case 9:
+            document.querySelector('figure').classList.add('arms')
+            break;
+        case 10:
+            document.querySelector('figure').classList.add('legs')
+            break;
+        case 11:
+            playerLose();
+            break;
+        default:
+            console.log('What are you doing?')
      }
      console.log('Funka', guessedLettersElem.innerHTML.length)
  }
  
- /* TODO: Lägg in funktion för du vann/du förlora skärmen */
  
  
  function playerWin(){
     let word = '';
-     for(let letter of wordGuessByPlayer){
-         word += letter;
-         //console.log('gusseWord: ', word)
-         //console.log('Letter: ', letter)
-     }
-     if(word == wordToGuess){
+    for(let letter of wordGuessByPlayer){
+        word += letter;
+        //console.log('gusseWord: ', word)
+        //console.log('Letter: ', letter)
+    }
+    if(word == wordToGuess){
         console.log('You win');
         winGame.classList.add('show');
     }
