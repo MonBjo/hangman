@@ -33,20 +33,21 @@
  let wordGuessByPlayer = [];
  let isTrue;
  let wordToGuess;
+
  function generateWord(){
     wordToGuess = wordsToGuess[Math.floor(Math.random() * wordsToGuess.length)].toLowerCase();
     console.log(`wordToGuess: ${wordToGuess}`);
  }
  generateWord();
- document.addEventListener('keydown', (event) => {
-    console.log(event.key);
-    const char = event.key;
 
+ document.addEventListener('keydown', (event) => {
+    const char = event.key.toLowerCase();
+     
+    console.log(char);
     console.log('char.length === 1 && char.match(/[a-z]/i) ', char.length === 1 && char.match(/[a-z]/i));
     /* TODO: Kolla så att det är en bokstav */
 
     if(!hasKeyBeenPressedBefore(char) && checkLetter(char)){
-        char.toLowerCase();
         compare(char, wordToGuess);
         //console.log('isTrue: ', isTrue);
         displayLetter(isTrue, char);
@@ -162,5 +163,11 @@
  }
 
  function checkLetter(char){
-    return char.length === 1 && char.match(/[a-z]/i);
+    if(char == 'å' || char == 'ä' || char == 'ö') {
+        return true;
+    } else {
+        // if it's false it returns as 'false'
+        // if it's not empty it returns as true
+        return char.length === 1 && char.match(/[a-z]/i);
+    }
 }
