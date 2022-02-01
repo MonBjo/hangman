@@ -44,17 +44,22 @@ body {
   flex-wrap: wrap;
   flex-direction: column;
 }
-div {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 3px solid orange;
+span {
+  width: 2rem;
+  height: 2rem;
   background-color: white;
-
   margin: 5px;
+  font-size: large;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .wordGuess {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 /* Stick figure */
 .wrapper figure svg > * {
