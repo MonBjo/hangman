@@ -14,12 +14,12 @@
 
  x jämnför bokstaven med ordet
  x om fel bokstav visa den under 
-    fyll i ett del på gubben
+    xfyll i ett del på gubben
  x om rätt fyll i bokstav i ordet
     x i rätt ordning
 
- när man vinner visa "du vann"-skärmen + fråga om att spela igen
- när man förlorar visa "du förlorade"-skärmen + fråga om att spela igen
+ xnär man vinner visa "du vann"-skärmen + fråga om att spela igen
+ xnär man förlorar visa "du förlorade"-skärmen + fråga om att spela igen
 
  */
 
@@ -32,20 +32,22 @@
  let guessedLetters = [];
  let wordGuessByPlayer = [];
  let isTrue;
- 
- let wordToGuess = wordsToGuess[Math.floor(Math.random() * wordsToGuess.length)].toLowerCase();
- console.log(`wordToGuess: ${wordToGuess}`);
- 
- 
+ let wordToGuess;
+ function generateWord(){
+    wordToGuess = wordsToGuess[Math.floor(Math.random() * wordsToGuess.length)].toLowerCase();
+    console.log(`wordToGuess: ${wordToGuess}`);
+ }
+ generateWord();
  document.addEventListener('keydown', (event) => {
      console.log(event.key);
      const char = event.key;
      /* TODO: Kolla så att det är en bokstav */
-     if(!hasKeyBeenPressedBefore(char)){
+     if(!hasKeyBeenPressedBefore(char) && checkLetter(char)){
          compare(char, wordToGuess);
          //console.log('isTrue: ', isTrue);
          displayLetter(isTrue, char);
          showHangMan();
+         playerWin();
      }
  });
  
@@ -121,7 +123,7 @@
              document.querySelector('figure').classList.add('legs')
              break;
          case 11:
-             resultalt();
+             playerLose();
              break;
          default:
              console.log('What are you doing?')
@@ -130,31 +132,33 @@
  }
  
  /* TODO: Lägg in funktion för du vann/du förlora skärmen */
- function resultalt(){
-     console.log('för resultalt')
-     console.log('Word: ', wordToGuess)
-     let word = '';
-     for(let letter of wordGuessByPlayer){
-         word += letter
-         console.log('gusseWord: ', word)
-         console.log('Letter: ', letter)
-     }
-     console.log('wordGusseByPlayer: ', wordGuessByPlayer)
-     if(word == wordToGuess){
-         console.log('You win')
-         playerWin()
-     }else{
-         console.log('you lose')
-         playerLose()
-     }
-     
- }
+ 
  
  function playerWin(){
-     winGame.classList.add('show');
+    let word = '';
+     for(let letter of wordGuessByPlayer){
+         word += letter;
+         //console.log('gusseWord: ', word)
+         //console.log('Letter: ', letter)
+     }
+     if(word == wordToGuess){
+        console.log('You win');
+        winGame.classList.add('show');
+    }
  }
- function playerLose(){
-     document.querySelector('.right-word').innerHTML = wordToGuess;
-     loseGame.classList.add('show');
+ function playerLose(){  
+    console.log('you lose');
+    document.querySelector('.right-word').innerHTML = wordToGuess;
+    loseGame.classList.add('show');
  }
- 
+
+ let playAgain = document.getElementsByTagName('a')
+ for(let link of playAgain){
+    link.addEventListener('click', ()=>{
+        window.location.reload();
+    })
+ }
+
+ function checkLetter(char){
+    return char.match(/[a-zA-Z]/);
+}
