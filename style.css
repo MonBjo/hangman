@@ -1,57 +1,83 @@
-@import url('https://fonts.googleapis.com/css?family=Eater&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Eater&display=swap");
 
-*  {
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
 body {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    background-color: #7349AC;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #7349ac;
+}
+.layout {
+  position: fixed;
+  width: 40%;
+  height: 350px;
+  margin-top: 3rem;
+  background-color: white;
+  box-shadow: 2px 5px 20px rgb(77, 77, 77);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.show {
+  display: flex;
 }
 
 .letters {
-    font-family: 'Eater', cursive;
-    font-size: 3em;
-    letter-spacing: 8px;
-    color: #fa6701;
+  font-family: "Eater", cursive;
+  font-size: 3em;
+  letter-spacing: 8px;
+  color: #fa6701;
 }
 
 .wrapper {
-    max-width: 1000px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    flex-direction: column;
+  max-width: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 /* Stick figure */
 .wrapper figure svg > * {
-    opacity: 0;
+  opacity: 0;
 }
 
-.wrapper figure svg #ground             { opacity: 1; }
-.wrapper figure.scaffold svg #scaffold  { opacity: 1; }
-.wrapper figure.head     svg #head      { opacity: 1; }
-.wrapper figure.body     svg #body      { opacity: 1; }
-.wrapper figure.arms     svg #arms      { opacity: 1; }
-.wrapper figure.legs     svg #legs      { opacity: 1; }
-
-
-
+.wrapper figure svg #ground {
+  opacity: 1;
+}
+.wrapper figure.scaffold svg #scaffold {
+  opacity: 1;
+}
+.wrapper figure.head svg #head {
+  opacity: 1;
+}
+.wrapper figure.body svg #body {
+  opacity: 1;
+}
+.wrapper figure.arms svg #arms {
+  opacity: 1;
+}
+.wrapper figure.legs svg #legs {
+  opacity: 1;
+}
 
 @media only screen and (max-width: 600px) {
-    body {
-        height: 80vh;
-    }
+  body {
+    height: 80vh;
+  }
 
-    h1 {
-        text-align: center;
-        letter-spacing: 6px;
-    }
+  h1 {
+    text-align: center;
+    letter-spacing: 6px;
+  }
 }
 
 @media only screen and (max-width: 768px) {
