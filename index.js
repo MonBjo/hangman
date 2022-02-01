@@ -45,7 +45,6 @@
      
     console.log(char);
     console.log('char.length === 1 && char.match(/[a-z]/i) ', char.length === 1 && char.match(/[a-z]/i));
-    /* TODO: Kolla så att det är en bokstav */
 
     if(!hasKeyBeenPressedBefore(char) && checkLetter(char)){
         compare(char, wordToGuess);
