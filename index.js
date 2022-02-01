@@ -41,8 +41,12 @@
  document.addEventListener('keydown', (event) => {
     console.log(event.key);
     const char = event.key;
+
+    console.log('char.length === 1 && char.match(/[a-z]/i) ', char.length === 1 && char.match(/[a-z]/i));
     /* TODO: Kolla så att det är en bokstav */
+
     if(!hasKeyBeenPressedBefore(char) && checkLetter(char)){
+        char.toLowerCase();
         compare(char, wordToGuess);
         //console.log('isTrue: ', isTrue);
         displayLetter(isTrue, char);
@@ -158,5 +162,5 @@
  }
 
  function checkLetter(char){
-    return char.match(/[a-zA-Z]/);
+    return char.length === 1 && char.match(/[a-z]/i);
 }
