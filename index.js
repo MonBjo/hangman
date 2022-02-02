@@ -15,7 +15,8 @@ let timeLeft = 60;
 let stopTimer = false;
 
 
-/* setup game */
+/* game setup */
+
 function generateWord(){
     wordToGuess = wordsToGuess[Math.floor(Math.random() * wordsToGuess.length)].toLowerCase();
     //console.log(`wordToGuess: ${wordToGuess}`);
@@ -52,6 +53,7 @@ for(let link of playAgain){
 
 
 
+/* functions */
 
 function hasKeyBeenPressedBefore(char){
     //console.log('hasKeyBeenPressedBefore:');
@@ -85,7 +87,6 @@ function displayLetter(guessedLetter, char){
             //console.log('wordGuess: ', wordGuessByPlayer);
                 if(char != undefined){
                     wordGuessElem.innerHTML += `<span>` + char + `</span>`;
-                    //console.log(wordGuessElem);
                 } else{
                     wordGuessElem.innerHTML+=`<span></span>`;
                 }
@@ -137,6 +138,7 @@ function playerWin(){
     }
 
 }
+
 function playerLose(){  
    document.querySelector('.right-word').innerHTML = wordToGuess;
    loseGame.classList.add('show');
@@ -167,13 +169,10 @@ function countDownTimer() {
     document.getElementById('countDown').innerHTML = 
     `Du har ${timeLeft < 10 ? "0" : ""}${timeLeft}s kvar`;
     timeLeft--;
-    console.log(stopTimer);
+    //console.log(stopTimer);
     if (timeLeft < 0) {
         playerLose();
-    }
-    else {
-        if(!stopTimer) {
-            setTimeout(countDownTimer, 1000);
-        }
+    } else if(!stopTimer) {
+        setTimeout(countDownTimer, 1000);
     }
 }
