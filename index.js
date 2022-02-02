@@ -34,20 +34,24 @@
  let boxes =[];
  let isTrue;
  let wordToGuess;
+ let timeLeft = 60;
 
  function generateWord(){
     wordToGuess = wordsToGuess[Math.floor(Math.random() * wordsToGuess.length)].toLowerCase();
     console.log(`wordToGuess: ${wordToGuess}`);
     for(let char of wordToGuess){
-        wordGuessByPlayer.push('')
+        wordGuessByPlayer.push('');
     }
-    console.log('test: ', wordGuessByPlayer)
+    console.log('test: ', wordGuessByPlayer);
  }
- generateWord();
-displayLetterBox()
+
+generateWord();
+displayLetterBox();
+countDownTimer();
+
  document.addEventListener('keydown', (event) => {
     const char = event.key.toLowerCase();
-    console.log(char);
+    //console.log(char);
     if(!hasKeyBeenPressedBefore(char) && checkLetter(char)){
         compare(char, wordToGuess);
         displayLetter(isTrue, char);
@@ -56,6 +60,7 @@ displayLetterBox()
     }
  });
  
+
  function hasKeyBeenPressedBefore(char){
     //console.log('hasKeyBeenPressedBefore:');
     for(let letter of guessedLetters){
@@ -65,74 +70,70 @@ displayLetterBox()
     }
  }
  
- 
+
  function compare(char, wordToGuess) {
     isTrue = false;
-    console.log(`wordToGuess.length: ${wordToGuess.length}`);
+    //console.log(`wordToGuess.length: ${wordToGuess.length}`);
     for(let i = 0; i < wordToGuess.length; i++){
         if (char == wordToGuess.charAt(i)){
             wordGuessByPlayer[i] = char;
             isTrue = true;
-        }else {
-            console.log("fel!");   
-                    
-        } 
+        }
     }
-    console.log('wordGuessBy: ', wordGuessByPlayer)
+    //console.log('wordGuessBy: ', wordGuessByPlayer);
     guessedLetters.push(char);
  }
  
  
  function displayLetter(guessedLetter, char){
     if(isTrue) {
-        /* visa i .wordGuess */
-        wordGuessElem.innerHTML = "Rätt: ";
+        /* Show in .wordGuess */
+        wordGuessElem.innerHTML = ``;
         for(let char of wordGuessByPlayer){
-            console.log('wordGuess: ', wordGuessByPlayer)
+            //console.log('wordGuess: ', wordGuessByPlayer);
                 if(char != undefined){
                     wordGuessElem.innerHTML += `<span>` + char + `</span>`;
-                    console.log(wordGuessElem)
+                    //console.log(wordGuessElem);
                 }else{
                     wordGuessElem.innerHTML+=`<span></span>`;
                 }
             
         }
     } else {
-        /* visa i .guessedLetters */
+        /* Show in .guessedLetters */
         guessedLettersElem.innerHTML += char;
     }
  }
- function showHangMan (){
-     //Starts at 5 becauce guessedLettersElem already contains 'Fel: '
+function showHangMan (){
      switch(guessedLettersElem.innerHTML.length){
+        case 0:
+            break;
+        case 1:
+            document.querySelector('figure').classList.add('scaffold');
+            break;
+        case 2:
+            document.querySelector('figure').classList.add('head');
+            break;
+        case 3:
+            document.querySelector('figure').classList.add('body');
+            break;
+        case 4:
+            document.querySelector('figure').classList.add('arms');
+            break;
         case 5:
+            document.querySelector('figure').classList.add('legs');
             break;
         case 6:
-            document.querySelector('figure').classList.add('scaffold')
-            break;
-        case 7:
-            document.querySelector('figure').classList.add('head')
-            break;
-        case 8:
-            document.querySelector('figure').classList.add('body')
-            break;
-        case 9:
-            document.querySelector('figure').classList.add('arms')
-            break;
-        case 10:
-            document.querySelector('figure').classList.add('legs')
-            break;
-        case 11:
             playerLose();
             break;
         default:
-            console.log('What are you doing?')
-     }
- }
+            console.log('What are you doing?');
+    }
+}
  
  
  
- function playerWin(){
+function playerWin(){
     let word = '';
     for(let letter of wordGuessByPlayer){
         word += letter;
@@ -140,32 +141,46 @@ displayLetterBox()
     if(word == wordToGuess){
         winGame.classList.add('show');
     }
- }
- function playerLose(){  
-    document.querySelector('.right-word').innerHTML = wordToGuess;
-    loseGame.classList.add('show');
- }
+}
+function playerLose(){  
+   document.querySelector('.right-word').innerHTML = wordToGuess;
+   loseGame.classList.add('show');
+}
 
- let playAgain = document.getElementsByTagName('a')
- for(let link of playAgain){
+let playAgain = document.getElementsByTagName('a')
+for(let link of playAgain){
     link.addEventListener('click', ()=>{
         window.location.reload();
     })
- }
+}
 
  function checkLetter(char){
     if(char == 'å' || char == 'ä' || char == 'ö') {
         return true;
     } else {
-        // if it's false it returns as 'false'
-        // if it's not empty it returns as true
+        // if it's empty it returns as 'false'
+        // if it's not empty it returns a character that 
+        // is recieved as true
         return char.length === 1 && char.match(/[a-z]/i);
     }
 }
 
 function displayLetterBox(){  
     for(let letter in wordToGuess){
-        let letterBox = document.createElement('span')
-        wordGuessElem.appendChild(letterBox)
+        let letterBox = document.createElement('span');
+        wordGuessElem.appendChild(letterBox);
+    }
+}
+
+
+
+function countDownTimer() {
+    document.getElementById('countDown').innerHTML = "Du har " + (timeLeft < 10 ? "0" : "") + String(timeLeft + "s kvar");
+    timeLeft--;
+    if (timeLeft < 0) {
+        playerLose();
+    }
+    else {
+        setTimeout(countDownTimer, 1000);
     }
 }
